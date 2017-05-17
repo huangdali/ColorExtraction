@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
+    <com.color.extraction.RGBImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -14,7 +14,6 @@
         android:gravity="center"
         android:scaleType="fitXY"
         android:src="@mipmap/demopic" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
