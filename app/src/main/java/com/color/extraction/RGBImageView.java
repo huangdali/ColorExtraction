@@ -50,7 +50,6 @@ public class RGBImageView extends ImageView {
     private void initPaint() {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        bitmap = ((BitmapDrawable) this.getDrawable()).getBitmap();
         mPaint.setColor(Color.WHITE);
     }
 
@@ -76,6 +75,7 @@ public class RGBImageView extends ImageView {
      * @return
      */
     public int[] getAvgColor(float x, float y, int redius) {
+        bitmap = ((BitmapDrawable) this.getDrawable()).getBitmap();
         int x1 = (int) (x - redius / 1.44);
         int y1 = (int) (y - redius / 1.44);
         List<Integer> sumR = new ArrayList<>();
