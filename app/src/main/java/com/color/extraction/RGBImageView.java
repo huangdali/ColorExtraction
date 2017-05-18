@@ -12,6 +12,10 @@ import android.widget.ImageView;
 
 import com.hdl.elog.ELog;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * RGB颜色提取
  */
@@ -19,9 +23,9 @@ import com.hdl.elog.ELog;
 public class RGBImageView extends ImageView {
     private Paint mPaint;
     private Bitmap bitmap;
-    private int distance = 50 / 2;
+    private int distance = (int) (30 / Math.sqrt(2));
     private int smallRudius = 5;
-    private int bigRudius = 10;
+    private int bigRudius = 15;
 
     private OnClickListener listener;
     private float curX, curY;
@@ -74,20 +78,39 @@ public class RGBImageView extends ImageView {
     public int[] getAvgColor(float x, float y, int redius) {
         int x1 = (int) (x - redius / 1.44);
         int y1 = (int) (y - redius / 1.44);
-        int sumr = 0;
-        int sumg = 0;
-        int sumb = 0;
-        int count = 0;
+        List<Integer> sumR = new ArrayList<>();
+        List<Integer> sumG = new ArrayList<>();
+        List<Integer> sumB = new ArrayList<>();
         for (int i = x1; i < x + redius / 1.44; i++) {
             for (int j = y1; j < y + redius / 1.44; j++) {
-                count++;
-                sumr += Color.red(bitmap.getPixel(i, j));
-                sumg += Color.green(bitmap.getPixel(i, j));
-                sumb += Color.blue(bitmap.getPixel(i, j));
+                sumR.add(Color.red(bitmap.getPixel(i, j)));
+                sumG.add(Color.green(bitmap.getPixel(i, j)));
+                sumB.add(Color.blue(bitmap.getPixel(i, j)));
             }
         }
-        int buf[] = {sumr / count, sumg / count, sumb / count};
+        removeMinAndMax(sumR);
+        removeMinAndMax(sumG);
+        removeMinAndMax(sumB);
+        int buf[] = {getAvg(sumR), getAvg(sumG), getAvg(sumB)};
         return buf;
+    }
+
+    /**
+     * 删除集合最大值和最小值
+     *
+     * @param list
+     */
+    public void removeMinAndMax(List<Integer> list) {
+        list.remove(Collections.min(list));
+        list.remove(Collections.max(list));
+    }
+
+    public int getAvg(List<Integer> list) {
+        int sum = 0;
+        for (Integer integer : list) {
+            sum += integer;
+        }
+        return sum / list.size();
     }
 
     @Override
@@ -144,7 +167,7 @@ public class RGBImageView extends ImageView {
                 int sumr = (int) ((cr + ltr + rbr + lbr + rtr) / 5.0);
                 int sumg = (int) ((cg + ltg + rbg + lbg + rtg) / 5.0);
                 int sumb = (int) ((cb + ltb + rbb + lbb + rtb) / 5.0);
-                listener.onClick(Color.argb(255,sumr,sumg,sumb), sumr, sumg, sumb);
+                listener.onClick(Color.argb(255, sumr, sumg, sumb), sumr, sumg, sumb);
                 ELog.hdl("圆心坐标为：" + curX + "--" + curY);
                 postInvalidate();
             }

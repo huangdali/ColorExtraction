@@ -14,10 +14,11 @@
         android:gravity="center"
         android:scaleType="fitXY"
         android:src="@mipmap/demopic" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:padding="5dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -101,7 +102,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:background="#1000"
+        android:padding="5dp"
         android:orientation="horizontal">
 
         <TextView
